@@ -41,7 +41,7 @@ class HashNode<K, V>
         next = nextVar;
     }
 
-};
+}
 
 
 [Serializable]
@@ -54,7 +54,7 @@ public class KeyHash<K>
 };
 
 [Serializable]
-public class HashMap<K, V> : MonoBehaviour
+public class HashMap<K, V>
 {
     private HashNode<K, V>[] table;
     private KeyHash<K> hashFunc;
@@ -108,6 +108,24 @@ public class HashMap<K, V> : MonoBehaviour
         return default(V);
     }
 
+    public bool find(K key)
+    {
+        ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);
+        HashNode<K, V> entry = table[hashValue];
+
+        while (entry != null)
+        {
+            if (EqualityComparer<K>.Default.Equals(entry.getKey(), key))
+            {
+                return true;
+            }
+
+            entry = entry.getNext();
+        }
+
+        return false;
+    }
+
     public void put(K key, V value)
     {
         ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);
@@ -123,7 +141,6 @@ public class HashMap<K, V> : MonoBehaviour
         if (entry == null)
         {
             entry = new HashNode<K, V>(key, value);
-            Debug.Log(key);
             keys.Add(key);
             if (prev == null)
             {
@@ -172,12 +189,9 @@ public class HashMap<K, V> : MonoBehaviour
             {
                 prev.setNext(entry.getNext());
             }
+
+            keys.Remove(key);
             entry = null;
         }
     }
-};
-
-public class HashTable : MonoBehaviour
-{
-
 }
