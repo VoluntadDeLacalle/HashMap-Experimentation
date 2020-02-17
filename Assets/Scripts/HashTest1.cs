@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class HashTest1 : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class HashTest1 : MonoBehaviour
     public GameObject startSphere;
     public GameObject middleSphere;
     public Transform environmentTransform;
+
+    private int actionCount = 0;
 
     void Awake()
     {
@@ -46,6 +49,7 @@ public class HashTest1 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y) && !gettingNames)
         {
             actionNames.Clear();
+            actionCount = 0;
             eraseSpheres();
 
             textMesh.text = "Functions:\n";
@@ -80,10 +84,9 @@ public class HashTest1 : MonoBehaviour
 
     void runActions()
     {
-        int count = 0;
-        foreach (string k in actionNames)
+        if (actionCount < actionNames.Count)
         {
-            if (count == 0)
+            if (actionCount == 0)
             {
                 GameObject tempGO = Instantiate(startSphere, environmentTransform);
                 tempGO.transform.position = transform.position;
@@ -94,11 +97,10 @@ public class HashTest1 : MonoBehaviour
                 tempGO.transform.position = transform.position;
             }
 
-            actions.get(k).Invoke();
-            
-            count++;
-        }
+            actions.get(actionNames[actionCount]).Invoke();
 
+            actionCount++;
+        }
     }
 
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
@@ -110,27 +112,27 @@ public class HashTest1 : MonoBehaviour
 
     private void Forward()
     {
-        transform.Translate(1, 0, 0);
+        transform.DOMove(transform.position + new Vector3(1, 0, 0), 1).OnComplete(runActions);
     }
 
     private void Top()
     {
-        transform.Translate(0, 1, 0);
+        transform.DOMove(transform.position + new Vector3(0, 1, 0), 1).OnComplete(runActions);
     }
     private void Back()
     {
-        transform.Translate(-1, 0, 0);
+        transform.DOMove(transform.position + new Vector3(-1, 0, 0), 1).OnComplete(runActions);
     }
     private void Down()
     {
-        transform.Translate(0, -1, 0);
+        transform.DOMove(transform.position + new Vector3(0, -1, 0), 1).OnComplete(runActions);
     }
     private void Left()
     {
-        transform.Translate(0, 0, 1);
+        transform.DOMove(transform.position + new Vector3(0, 0, 1), 1).OnComplete(runActions);
     }
     private void Right()
     {
-        transform.Translate(0, 0, -1);
+        transform.DOMove(transform.position + new Vector3(0, 0, -1), 1).OnComplete(runActions);
     }
 }
