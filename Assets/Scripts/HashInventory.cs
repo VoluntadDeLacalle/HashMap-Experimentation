@@ -94,6 +94,7 @@ public class HashInventory : MonoBehaviour
         }
     }
 
+
     void eraseTable()
     {
         int childCount = inventoryMenuPanel.transform.childCount;
