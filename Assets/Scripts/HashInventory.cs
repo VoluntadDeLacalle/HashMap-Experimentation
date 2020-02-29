@@ -5,6 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+/// <summary>
+/// This class is used to store the GameObject and the amount of said GameObject as the value in the
+/// key-value pair.
+/// NOTE: In a different program the value would be as simple as the amount. I choose to store the GameObject as well
+/// as a short way to tell the program what GameObject to spawn when the respawn button is pressed.
+/// </summary>
 public class inventoryItem {
 
     public inventoryItem(GameObject itm, int am)
@@ -47,7 +53,7 @@ public class HashInventory : MonoBehaviour
 
     void Update()
     {
-        
+        ///This portion of code handles showing the inventory UI panel. It also changes the TimeScale to change the player's ability to move.
         if (Input.GetKeyDown(KeyCode.E))
         {
             showInv = !showInv;
@@ -65,7 +71,9 @@ public class HashInventory : MonoBehaviour
                 inventoryMenu.gameObject.SetActive(false);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        /// This next chunk of code allows for the GameObjects in the player's inventory to be
+        /// respawned at random once the 'Q' button is pressed.
+        else if (Input.GetKeyDown(KeyCode.Q)) 
         {
             if (!showInv && inventory.getKeys().Count > 0)
             {
@@ -88,13 +96,16 @@ public class HashInventory : MonoBehaviour
                 }
             }
         }
+        ///This portion of code resets the current scene.
         else if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
-
+    /// <summary>
+    /// Removes all text children of the inventory panel when the inventory is not being shown.
+    /// </summary>
     void eraseTable()
     {
         int childCount = inventoryMenuPanel.transform.childCount;
@@ -104,6 +115,9 @@ public class HashInventory : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates and displays the text information for all of the items currently in the players inventory.
+    /// </summary>
     void displayTable()
     {
         int count = 1;

@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class helps in building the HashMap class by creating the nodes that the hashed values will be stored in.
+/// </summary>
+/// <typeparam name="K"></typeparam>
+/// <typeparam name="V"></typeparam>
 class HashNode<K, V>
 {
     private K key;
@@ -43,7 +48,11 @@ class HashNode<K, V>
 
 }
 
-
+/// <summary>
+/// The hashing function for the HashMap class. The hashFunction takes in a key variable and returns an unisigned long
+/// that is the hash ID for said key.
+/// </summary>
+/// <typeparam name="K"></typeparam>
 [Serializable]
 public class KeyHash<K>
 {
@@ -53,6 +62,11 @@ public class KeyHash<K>
     }
 };
 
+/// <summary>
+/// This is the HashMap class.
+/// </summary>
+/// <typeparam name="K"></typeparam>
+/// <typeparam name="V"></typeparam>
 [Serializable]
 public class HashMap<K, V>
 {
@@ -86,11 +100,22 @@ public class HashMap<K, V>
         keys.Clear();
     }
 
+
+    /// <summary>
+    /// Sets the table size for the HashMap. If the table size set in the constructor needs to change, it can be done
+    /// using this function.
+    /// </summary>
+    /// <param name="n"></param>
     public void setTableSize(int n)
     {
         TABLE_SIZE = n;
     }
 
+    /// <summary>
+    /// Takes in a key variable and returns whatever the value that the key variable is paired with.
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
     public V get(K key)
     {
         ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);
@@ -108,6 +133,11 @@ public class HashMap<K, V>
         return default(V);
     }
 
+    /// <summary>
+    /// Takes in a key variable and returns either true or false depending on if the key was found in the HashMap or not.
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
     public bool find(K key)
     {
         ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);
@@ -126,6 +156,12 @@ public class HashMap<K, V>
         return false;
     }
 
+
+    /// <summary>
+    /// This function allows a new key-value pair to be added to the HashMap.
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
     public void put(K key, V value)
     {
         ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);
@@ -157,11 +193,19 @@ public class HashMap<K, V>
         }
     }
 
+    /// <summary>
+    /// Returns all of the keys that are currently stored in the HashMap.
+    /// </summary>
+    /// <returns></returns>
     public List<K> getKeys()
     {
         return keys;
     }
 
+    /// <summary>
+    /// Takes in a key variable and removes the key-value pair associated from the HashMap.
+    /// </summary>
+    /// <param name="key"></param>
     public void remove(K key)
     {
         ulong hashValue = hashFunc.hashFunction(key, TABLE_SIZE);

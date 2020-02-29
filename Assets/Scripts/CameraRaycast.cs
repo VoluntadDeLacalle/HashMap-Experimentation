@@ -20,6 +20,9 @@ public class CameraRaycast : MonoBehaviour
         showInteractiveText = false;
     }
 
+    /// <summary>
+    /// In this Update function a raycast is sent out from the camera to allow the player to pick up objects to add to their inventory.
+    /// </summary>
     void Update()
     {
         ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -43,6 +46,9 @@ public class CameraRaycast : MonoBehaviour
                     showInteractiveText = true;
                 }
 
+                ///This section checks the player's input and attempts two different things.
+                ///1. If the object is not found in the current HashMap, it will be put their using the put function.
+                ///2. If the object is found in the current HashMap, it will increase the amount of said GameObject.
                 if (Input.GetMouseButtonDown(0) && !HashInventory.showInv)
                 {
                     if (!HS.inventory.find(outHit.transform.gameObject.tag))
